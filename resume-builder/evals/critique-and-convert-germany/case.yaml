@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: critique-and-convert-germany
+expected_outcome: |
+  A scorecard critique naming the two-column layout, skill bars and weak bullets as problems, then a Germany-adapted CV that keeps languages with CEFR levels and handles the photo question explicitly.

@@ -1,0 +1,139 @@
+{
+  "meta": {
+    "paper": "a4",
+    "font": "Calibri",
+    "font_size": 10.5,
+    "margin_in": 0.6,
+    "accent": "1F3864",
+    "graduate": false,
+    "_notes": "paper: a4 | letter. graduate: true puts Education first. section_order overrides the default order. headings lets you rename section titles (e.g. 'Personal Profile' for UK/IE). Bullets: no end periods, digits not words."
+  },
+  "name": "Alex Murphy",
+  "headline": "Senior Software Engineer — Cloud Platforms & Distributed Systems",
+  "contact": {
+    "location": "Dublin, Ireland",
+    "phone": "+353 87 123 4567",
+    "email": "alex.murphy@example.com",
+    "linkedin": "linkedin.com/in/alexmurphy",
+    "github": "github.com/alexmurphy",
+    "work_authorization": "Stamp 4 — no sponsorship required"
+  },
+  "headings": {
+    "summary": "Personal Profile"
+  },
+  "summary": "Senior Software Engineer with 8 years building high-traffic Java and Go microservices on AWS and Kubernetes. Led the migration of 40 services to EKS, cutting infrastructure cost 31% while lifting availability to 99.98%. Experienced in mentoring, on-call leadership and CI/CD automation.",
+  "skills": [
+    {
+      "category": "Languages",
+      "items": [
+        "Java",
+        "Go",
+        "Python",
+        "TypeScript",
+        "SQL"
+      ]
+    },
+    {
+      "category": "Cloud & DevOps",
+      "items": [
+        "AWS (EKS, Lambda, S3, DynamoDB)",
+        "Kubernetes",
+        "Docker",
+        "Terraform",
+        "GitHub Actions",
+        "CI/CD"
+      ]
+    },
+    {
+      "category": "Data & Messaging",
+      "items": [
+        "PostgreSQL",
+        "Kafka",
+        "Redis"
+      ]
+    },
+    {
+      "category": "Observability",
+      "items": [
+        "Prometheus",
+        "Grafana",
+        "OpenTelemetry"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "company": "Example Payments Ltd",
+      "location": "Dublin, Ireland",
+      "descriptor": "Series C fintech processing €4B/year",
+      "roles": [
+        {
+          "title": "Senior Software Engineer",
+          "start": "Mar 2022",
+          "end": "Present",
+          "bullets": [
+            "Led migration of 40 Java and Go payment microservices from EC2 to Amazon EKS, cutting compute cost 31% (€420K/year) and raising availability from 99.9% to 99.98%",
+            "Reduced p99 checkout latency 42% (850 ms → 490 ms) by redesigning connection pooling and retry logic in the Go payment gateway",
+            "Mentored 4 engineers to promotion through weekly design reviews; introduced an RFC process adopted by 6 teams"
+          ]
+        },
+        {
+          "title": "Software Engineer",
+          "start": "Jun 2019",
+          "end": "Feb 2022",
+          "bullets": [
+            "Built Kafka-based event pipeline handling 15K events/sec for real-time fraud scoring, reducing chargebacks 18%",
+            "Cut deployment time from 45 to 8 minutes for 30 services by moving Jenkins pipelines to GitHub Actions with parallel test stages"
+          ]
+        }
+      ]
+    },
+    {
+      "company": "Acme Software",
+      "location": "Bengaluru, India",
+      "roles": [
+        {
+          "title": "Software Engineer",
+          "start": "Jul 2017",
+          "end": "May 2019",
+          "bullets": [
+            "Developed Spring Boot REST APIs serving 2M daily requests for a B2B logistics platform",
+            "Automated regression testing with JUnit and Selenium, lifting coverage from 40% to 82%"
+          ]
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "kube-cost-lens",
+      "tech": "Go, Kubernetes API, Prometheus",
+      "link": "github.com/alexmurphy/kube-cost-lens",
+      "bullets": [
+        "Open-source per-namespace cost reporter for Kubernetes; 1.2K GitHub stars"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "B.Tech, Computer Science",
+      "institution": "National Institute of Technology",
+      "location": "India",
+      "end": "2017",
+      "details": []
+    }
+  ],
+  "certifications": [
+    {
+      "name": "AWS Certified Solutions Architect – Professional",
+      "issuer": "Amazon Web Services",
+      "year": "2024"
+    },
+    {
+      "name": "Certified Kubernetes Administrator (CKA)",
+      "issuer": "CNCF",
+      "year": "2023"
+    }
+  ],
+  "extra_sections": []
+}

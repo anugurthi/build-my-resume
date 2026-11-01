@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: us-newgrad-one-page
+expected_outcome: |
+  A one-page US Letter resume with Education first, XYZ-style quantified bullets, no summary/objective, no photo.

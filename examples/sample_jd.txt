@@ -1,0 +1,17 @@
+Senior Software Engineer, Platform — Dublin, Ireland (Hybrid)
+
+About the role
+You'll design and build the platform that powers our payments products.
+
+What you'll need
+- 5+ years of experience building distributed systems in Java or Go
+- Deep hands-on experience with Kubernetes and AWS
+- Experience with CI/CD and Infrastructure as Code (Terraform)
+- Strong understanding of microservices and event-driven architecture with Kafka
+- Experience mentoring engineers
+
+Nice to have
+- Rust or Python
+- Observability tooling: Prometheus, Grafana, OpenTelemetry
+- Experience with gRPC and GraphQL
+- Payments or fintech domain experience

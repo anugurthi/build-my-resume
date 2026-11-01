@@ -1,237 +1,123 @@
-<p align="center">
-  <h1 align="center">Tech Resume & CV Builder for Claude</h1>
-  <p align="center">
-    <img src="https://img.shields.io/badge/Claude_AI-Skill-blueviolet?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude AI Skill">
-    <img src="https://img.shields.io/badge/Tech%20Resume%20%2F%20CV-blue?style=for-the-badge" alt="Tech Resume CV Skill">
-    <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT License">
-  </p>
-</p>
+# Resume Builder — a Claude Skill
 
-A Claude skill for creating professional technology resumes and CVs with strong ATS awareness, recruiter-friendly structure, and impact-focused writing. It is optimized for software engineering and technical roles while still supporting UK, EU, and Irish market conventions where relevant.
+A Claude skill for building, tailoring and critiquing **ATS-optimized resumes and CVs** matched to a specific job description, following:
 
-This project keeps the original high-quality resume advice and refocuses it around what it does best: helping technical candidates present themselves clearly and professionally in job applications.
+- **Harvard Career Services** resume standards (action verbs, no pronouns, achievement-focused bullets)
+- **r/EngineeringResumes** best practices (single column, one page under ~10 years, XYZ bullets)
+- **Big-tech recruiter knowledge**: Google (XYZ formula), Amazon (Leadership Principles), Meta (impact), Microsoft, Apple, startups
+- **Country/region conventions**: US, Canada, UK, Ireland, Germany/Austria, Switzerland, France, Netherlands/Nordics, Spain/Southern Europe, Latin America, India, Australia/NZ, Singapore, Gulf, Japan, China
 
----
+Every role gets **domain context** (industry, data, users, business impact), and Spanish/LATAM and other language versions are written natively rather than translated.
 
-## What This Skill Does
+It will never invent employers, titles, skills or metrics. Missing requirements are reported as gaps, and uncertain numbers are marked `[confirm]`.
 
-This skill helps Claude act as a technical resume consultant that can:
+## What it does
 
-- Build a software or tech resume from scratch
-- Improve an existing tech resume or CV
-- Tailor a resume for a specific engineering or technical role
-- Support U.S., UK, EU, and Irish hiring conventions
-- Write stronger bullet points using measurable impact and domain context
-- Keep ATS principles in mind without over-optimizing the document
-- Produce recruiter-friendly output for applications, referrals, and interviews
+1. Gathers your career history, the target JD and the target country
+2. Dissects the JD into must-have and nice-to-have skills, keywords and values language
+3. Maps your real evidence to each requirement and flags gaps
+4. Writes quantified XYZ/CAR bullets in the JD's vocabulary, ordered by relevance
+5. Renders an ATS-safe single-column `.docx` + `.pdf`
+6. Verifies ATS parseability, keyword coverage, page count and regional fit
+7. Delivers the resume with a short report: coverage before → after, gaps, items to confirm
 
----
+It also has a **critique mode** (scorecard + top fixes) and handles **country conversion** (e.g., US resume → German Lebenslauf).
 
-## Tech-Focused Scope
+## Repository layout
 
-This project is intentionally built for technology careers, including:
+```
+resume-builder/
+├── SKILL.md                         # skill entry point (workflow)
+├── references/
+│   ├── jd-matching.md               # JD dissection, evidence mapping, tailoring
+│   ├── bullet-writing.md            # XYZ/CAR formulas, action verbs, seniority signals
+│   ├── ats-rules.md                 # file formats, layout, fonts, ATS myths
+│   ├── regional-conventions.md      # 15+ countries/regions + conversion checklist
+│   ├── recruiter-insights.md        # Google, Amazon, Meta, Microsoft, Apple, startups
+│   └── section-guide.md             # section order, length, gaps
+├── scripts/
+│   ├── jd_match.py                  # keyword coverage vs JD (required/preferred)
+│   ├── build_resume.py              # JSON → ATS-safe .docx (+ .pdf)
+│   └── ats_check.py                 # parsing-hazard checker for .docx/.pdf
+├── assets/
+│   └── resume_example.json          # input schema + example
+└── evals/                           # test cases (claude plugin eval format)
+docs/
+└── SOURCES.md                       # sources and acknowledgements
+examples/
+├── sample_jd.txt
+├── Alex_Murphy_CV.docx              # sample output
+└── Alex_Murphy_CV.pdf
+```
 
-- Software engineering
-- Backend, frontend, full-stack, mobile, DevOps, data engineering, QA, platform, and infrastructure roles
-- Product engineering and technical product work
-- Technical internships and early-career software roles
-- Mid-level and senior engineering profiles
-- Technical CVs for UK, EU, and Ireland job markets
+## Install
 
-This is not a general-purpose document builder for every profession. The emphasis is on technical candidates and technical hiring standards.
+**Claude.ai / Claude desktop:** zip the `resume-builder/` folder (or use the packaged `.skill` file from Releases) and upload it under Settings → Capabilities → Skills.
 
----
-
-## UK / EU / Ireland Support
-
-The skill supports the following conventions where relevant:
-
-- UK resume conventions for tech roles
-- EU and Irish CV patterns for candidates applying internationally
-- terminology and phrasing adjustments for local hiring expectations
-- flexible format choices depending on job market and recruiter preference
-
-This keeps the skill useful for technical candidates applying across Europe without turning it into a general business or non-technical resume tool.
-
----
-
-## Market Modes
-
-The skill should adapt based on the target market and document type.
-
-### 1. Default U.S. Tech Resume
-- concise, achievement-focused formatting
-- strong skills-first layout for engineering roles
-- suitable for U.S. hiring portals and recruiter workflows
-
-### 2. UK Tech Resume
-- typically shorter, clearer, and achievement-led
-- often includes concise professional summary and direct role matching
-- keep formatting sharper and less dense than a U.S. two-page version
-
-### 3. EU / Ireland Tech CV
-- more likely to include a detailed CV structure
-- often more explicit about education, projects, certifications, and technical skills
-- suitable for applications in continental Europe and Ireland
-
-### 4. Remote / International Tech Applications
-- keep a reusable core version
-- adjust wording and emphasis for the target company market and local conventions
-
----
-
-## Technical Role Templates
-
-The skill should support common engineering variants without forcing one generic template:
-
-- Backend Engineer
-- Frontend Engineer
-- Full-Stack Engineer
-- Platform / DevOps Engineer
-- Data Engineer
-- QA / Automation Engineer
-- Security Engineer
-- ML / AI Engineer
-- Site Reliability / Infrastructure Engineer
-
-Each template changes emphasis:
-- infrastructure roles prioritize reliability and scale
-- frontend roles prioritize product impact and customer experience
-- data roles prioritize analytical systems and data quality
-- backend roles prioritize systems, APIs, architecture, and performance
-
----
-
-## Quick Start
-
-### Option 1: Install the Skill in Claude.ai
-
-1. Download the skill file from this repository
-2. Open Claude.ai and go to Settings → Skills
-3. Upload the skill file
-4. Ask Claude: “Help me build my software engineering resume” or “Tailor my CV for a UK tech role”
-
-### Option 2: Use with Claude Code
+**Claude Code:** copy the folder into your skills directory:
 
 ```bash
-git clone https://github.com/your-username/resume-builder-skill.git
-cp -r resume-builder-skill/skill/ ~/.claude/skills/user/resume-builder/
+cp -r resume-builder ~/.claude/skills/
 ```
 
-### Option 3: Use the Guidance Files Directly
+Then just ask Claude things like:
 
-The reference files remain useful as standalone guidance for resume editing and review.
+> "Here's my resume and a JD for a Senior Backend Engineer at Stripe Dublin — tailor it."
+> "Review my CV and convert it for jobs in Berlin."
+> "Will this resume get past ATS?"
 
----
+## Using the scripts directly
 
-## Core Principles
+```bash
+pip install -r requirements.txt
 
-### 1. Focus on technical relevance
+# Keyword coverage of a resume against a job description
+python resume-builder/scripts/jd_match.py --jd examples/sample_jd.txt --resume examples/Alex_Murphy_CV.pdf
 
-The skill should prioritize the work that matters most for engineering and technical hiring:
+# Build a resume from JSON (A4 or US Letter) and export PDF (needs LibreOffice)
+python resume-builder/scripts/build_resume.py resume-builder/assets/resume_example.json \
+  --out out/Alex_Murphy_CV --pdf --paper a4
 
-- product or platform context
-- domain experience
-- architecture and system responsibility
-- technical depth and impact
-- measurable results
-
-### 2. Write for recruiters and hiring managers
-
-The strongest technical bullet points answer:
-
-- What system or product was involved?
-- What did you build or improve?
-- What technology or architecture was used?
-- What outcome or measurable result followed?
-
-### 3. Keep a flexible but structured format
-
-The skill should still support strong structure, but it should adapt to user context:
-
-- one-page resume for early-career candidates
-- one- to two-page resumes for mid-level engineers
-- more detailed CVs for UK/EU and international applications
-
-### 4. Use ATS awareness without over-engineering
-
-The document should be easy to parse, strong in keywords, and readable by humans. The goal is relevance and clarity, not keyword stuffing.
-
----
-
-## Supported Use Cases
-
-This skill is meant to help with:
-
-- Building a software engineering resume from scratch
-- Optimizing an existing technical resume
-- Tailoring a resume to a specific engineering role
-- Improving bullet points for impact and clarity
-- Creating UK, EU, or Ireland-specific technical CV versions
-- Reviewing resumes for technical relevance and ATS readability
-
----
-
-## Repository Structure
-
-```text
-resume-builder-skill/
-├── README.md
-├── LICENSE
-├── resume-builder.skill
-├── docs/
-│   ├── INSTALLATION.md
-│   └── SOURCES.md
-├── skill/
-│   ├── SKILL.md
-│   └── references/
-│       ├── format-and-structure.md
-│       ├── bullet-writing-guide.md
-│       ├── ats-and-keywords.md
-│       └── common-mistakes.md
-└── examples/
-    ├── kiran-devops-engineer-resume.md
-    └── sample-fullstack-engineer-resume.md
+# Check a resume for ATS hazards with regional page-length rules
+python resume-builder/scripts/ats_check.py out/Alex_Murphy_CV.docx --region ie --years 8
 ```
 
----
+`ats_check.py` regions: `us`, `ca`, `uk`, `ie`, `eu`, `in`, `au`, `gulf`, `other`.
 
-## Example Files
+### JSON options (`meta`)
 
-The examples folder includes fresh technical samples for the skill:
+| Key | Values | Effect |
+|---|---|---|
+| `paper` | `a4` / `letter` | Page size (Letter for US/Canada) |
+| `font`, `font_size` | e.g. `Calibri`, `10.5` | Body font |
+| `margin_in` | e.g. `0.6` | Side margins in inches |
+| `accent` | hex, e.g. `1F3864` | Heading colour |
+| `graduate` | `true` / `false` | Education first |
 
-- [examples/kiran-devops-engineer-resume.md](examples/kiran-devops-engineer-resume.md) — DevOps engineer resume example for Kiran
-- [examples/sample-fullstack-engineer-resume.md](examples/sample-fullstack-engineer-resume.md) — Full-stack engineer resume example
+Top-level `section_order` and `headings` let you reorder and rename sections (e.g. `"summary": "Personal Profile"` for UK/Ireland).
 
----
+## Running the evals
 
-## Example Prompts
+With Claude Code v2.1.269+, from the `resume-builder/` folder:
 
-- “Help me build my software engineering resume.”
-- “Rewrite my existing resume for a backend engineer role.”
-- “Tailor my CV for a UK software engineer position.”
-- “Make my resume more ATS-friendly for a full-stack role.”
-- “Review my technical resume and improve the bullets for impact.”
-- “Create a version of my CV for a European tech job market.”
+```bash
+claude plugin eval . --allow-tools Write,Edit,Bash
+```
 
----
+## Requirements
 
-## Contribution
+- Python 3.9+
+- `python-docx`, `pdfplumber`, `pypdf`
+- LibreOffice (optional, for PDF export and page counting)
 
-This project is focused on technical career documents, but there is room to improve the skill for:
+## Disclaimer
 
-- more engineering subfields
-- UK, EU, and Ireland conventions
-- stronger technical bullet writing examples
-- additional ATS guidance for modern hiring systems
-- more sample resumes for different roles and seniority levels
+Country conventions and recruiter practices change and vary by employer. Treat them as sensible defaults, and check anything legally sensitive (work authorisation, personal data) against the employer's instructions.
 
----
+## Acknowledgements
+
+See [docs/SOURCES.md](docs/SOURCES.md). Parts of the bullet rules, domain-context guidance, Spanish-language guidance and the pre-delivery checklist are adapted from [dabydat/resume-builder-skill](https://github.com/dabydat/resume-builder-skill) (MIT).
 
 ## License
 
-MIT License — see [LICENSE](./LICENSE).
-
----
-
-> “A strong tech resume is not just a list of tools. It is a concise proof of technical impact, business value, and fit for the role.”
+MIT, see [LICENSE](LICENSE).
