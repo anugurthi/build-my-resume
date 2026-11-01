@@ -190,9 +190,18 @@ resume-builder-skill/
 │       ├── ats-and-keywords.md
 │       └── common-mistakes.md
 └── examples/
-    ├── Example_Resume_EN.docx
-    └── Example_Resume_EN.pdf
+    ├── kiran-devops-engineer-resume.md
+    └── sample-fullstack-engineer-resume.md
 ```
+
+---
+
+## Example Files
+
+The examples folder includes fresh technical samples for the skill:
+
+- [examples/kiran-devops-engineer-resume.md](examples/kiran-devops-engineer-resume.md) — DevOps engineer resume example for Kiran
+- [examples/sample-fullstack-engineer-resume.md](examples/sample-fullstack-engineer-resume.md) — Full-stack engineer resume example
 
 ---
 
