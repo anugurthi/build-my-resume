@@ -1,123 +1,203 @@
-# Resume Builder — a Claude Skill
+# Build My Resume
 
-A Claude skill for building, tailoring and critiquing **ATS-optimized resumes and CVs** matched to a specific job description, following:
+Build polished, ATS-friendly resumes and CVs tailored to a specific job description, region, and hiring context.
 
-- **Harvard Career Services** resume standards (action verbs, no pronouns, achievement-focused bullets)
-- **r/EngineeringResumes** best practices (single column, one page under ~10 years, XYZ bullets)
-- **Big-tech recruiter knowledge**: Google (XYZ formula), Amazon (Leadership Principles), Meta (impact), Microsoft, Apple, startups
-- **Country/region conventions**: US, Canada, UK, Ireland, Germany/Austria, Switzerland, France, Netherlands/Nordics, Spain/Southern Europe, Latin America, India, Australia/NZ, Singapore, Gulf, Japan, China
+This project turns resume writing into a repeatable workflow: read the job description, extract what matters, map your evidence, and generate recruiter-ready output that is clearer, more targeted, and easier to defend.
 
-Every role gets **domain context** (industry, data, users, business impact), and Spanish/LATAM and other language versions are written natively rather than translated.
+## Why this project exists
 
-It will never invent employers, titles, skills or metrics. Missing requirements are reported as gaps, and uncertain numbers are marked `[confirm]`.
+Most resumes fail because they are generic, unfocused, and written for the applicant instead of the hiring team.
 
-## What it does
+This repo helps you:
 
-1. Gathers your career history, the target JD and the target country
-2. Dissects the JD into must-have and nice-to-have skills, keywords and values language
-3. Maps your real evidence to each requirement and flags gaps
-4. Writes quantified XYZ/CAR bullets in the JD's vocabulary, ordered by relevance
-5. Renders an ATS-safe single-column `.docx` + `.pdf`
-6. Verifies ATS parseability, keyword coverage, page count and regional fit
-7. Delivers the resume with a short report: coverage before → after, gaps, items to confirm
+- tailor a resume to a specific role and company
+- match the language of the job description
+- strengthen bullet points with measurable impact
+- improve ATS compatibility without sacrificing readability
+- adapt formatting and tone for different countries and hiring norms
+- critique and refine the output before sending it
 
-It also has a **critique mode** (scorecard + top fixes) and handles **country conversion** (e.g., US resume → German Lebenslauf).
+It is designed around the real patterns recruiters and hiring teams look for: strong role-based storytelling, domain context, impact-driven bullets, and region-aware formatting.
 
-## Repository layout
+---
 
-```
-resume-builder/
-├── SKILL.md                         # skill entry point (workflow)
-├── references/
-│   ├── jd-matching.md               # JD dissection, evidence mapping, tailoring
-│   ├── bullet-writing.md            # XYZ/CAR formulas, action verbs, seniority signals
-│   ├── ats-rules.md                 # file formats, layout, fonts, ATS myths
-│   ├── regional-conventions.md      # 15+ countries/regions + conversion checklist
-│   ├── recruiter-insights.md        # Google, Amazon, Meta, Microsoft, Apple, startups
-│   └── section-guide.md             # section order, length, gaps
-├── scripts/
-│   ├── jd_match.py                  # keyword coverage vs JD (required/preferred)
-│   ├── build_resume.py              # JSON → ATS-safe .docx (+ .pdf)
-│   └── ats_check.py                 # parsing-hazard checker for .docx/.pdf
-├── assets/
-│   └── resume_example.json          # input schema + example
-└── evals/                           # test cases (claude plugin eval format)
-docs/
-└── SOURCES.md                       # sources and acknowledgements
-examples/
-├── sample_jd.txt
-├── Alex_Murphy_CV.docx              # sample output
-└── Alex_Murphy_CV.pdf
-```
+## Quick Start
 
-## Install
+### Option 1: Install the skill in Claude.ai
 
-**Claude.ai / Claude desktop:** zip the `resume-builder/` folder (or use the packaged `.skill` file from Releases) and upload it under Settings → Capabilities → Skills.
+1. Download the [`resume-builder.skill`](resume-builder.skill) file from this repository
+2. Open Claude.ai → Settings → Skills
+3. Upload the `.skill` file
+4. Ask Claude things like:
+   - "Help me create my resume"
+   - "Tailor my CV for this job description"
+   - "Review my resume and make it ATS-friendly"
 
-**Claude Code:** copy the folder into your skills directory:
+> A `.skill` file is a packaged instruction set that teaches Claude how to work with this resume workflow.
+
+### Option 2: Use it with Claude Code
 
 ```bash
+git clone git@github.com:anugurthi/build-my-resume.git
+cd build-my-resume
 cp -r resume-builder ~/.claude/skills/
 ```
 
-Then just ask Claude things like:
+Then invoke it from Claude Code with prompts like:
 
-> "Here's my resume and a JD for a Senior Backend Engineer at Stripe Dublin — tailor it."
-> "Review my CV and convert it for jobs in Berlin."
-> "Will this resume get past ATS?"
+- "Build my resume for a Senior Backend Engineer role in Dublin"
+- "Convert this US resume into a German CV"
+- "Review my resume against this job description and flag gaps"
 
-## Using the scripts directly
+### Option 3: Use the scripts directly
 
 ```bash
 pip install -r requirements.txt
+```
 
-# Keyword coverage of a resume against a job description
+Then run the local tools:
+
+```bash
+# Check keyword coverage against a job description
 python resume-builder/scripts/jd_match.py --jd examples/sample_jd.txt --resume examples/Alex_Murphy_CV.pdf
 
-# Build a resume from JSON (A4 or US Letter) and export PDF (needs LibreOffice)
+# Build a resume from JSON and export a PDF
 python resume-builder/scripts/build_resume.py resume-builder/assets/resume_example.json \
   --out out/Alex_Murphy_CV --pdf --paper a4
 
-# Check a resume for ATS hazards with regional page-length rules
+# Check a resume for ATS and formatting issues
 python resume-builder/scripts/ats_check.py out/Alex_Murphy_CV.docx --region ie --years 8
 ```
 
-`ats_check.py` regions: `us`, `ca`, `uk`, `ie`, `eu`, `in`, `au`, `gulf`, `other`.
+---
 
-### JSON options (`meta`)
+## What the project does
 
-| Key | Values | Effect |
-|---|---|---|
-| `paper` | `a4` / `letter` | Page size (Letter for US/Canada) |
-| `font`, `font_size` | e.g. `Calibri`, `10.5` | Body font |
-| `margin_in` | e.g. `0.6` | Side margins in inches |
-| `accent` | hex, e.g. `1F3864` | Heading colour |
-| `graduate` | `true` / `false` | Education first |
+1. Reads your experience, target role, and job description
+2. Extracts required and preferred skills from the JD
+3. Maps your evidence to the actual requirements
+4. Writes strong bullet points using impact-oriented framing
+5. Reorders and refines content for clarity and relevance
+6. Generates ATS-safe output in editable and export-friendly formats
+7. Flags missing evidence, weak statements, and risky assumptions
 
-Top-level `section_order` and `headings` let you reorder and rename sections (e.g. `"summary": "Personal Profile"` for UK/Ireland).
+It also supports:
 
-## Running the evals
+- country-aware resume conventions
+- critique mode and improvement scoring
+- ATS review and compatibility checks
+- output optimization for role-specific contexts
 
-With Claude Code v2.1.269+, from the `resume-builder/` folder:
+---
 
-```bash
-claude plugin eval . --allow-tools Write,Edit,Bash
+## Knowledge sources
+
+This project draws on a mix of resume-writing standards, recruiter heuristics, and ATS guidance from widely cited sources, including:
+
+- Harvard Career Services
+- r/EngineeringResumes
+- The Tech Resume Inside Out
+- Tech Interview Handbook
+- Google XYZ formula guidance
+- recruiter and hiring-manager patterns from major tech employers
+
+> Full source references and attribution are recorded in [docs/SOURCES.md](docs/SOURCES.md).
+
+---
+
+## Repository structure
+
+```text
+build-my-resume/
+├── LICENSE
+├── README.md
+├── requirements.txt
+├── resume-builder.skill
+├── docs/
+│   └── SOURCES.md
+├── examples/
+│   ├── sample_jd.txt
+│   └── sample outputs (if present)
+├── resume-builder/
+│   ├── SKILL.md
+│   ├── assets/
+│   │   └── resume_example.json
+│   ├── evals/
+│   │   └── case files and graders
+│   ├── references/
+│   │   ├── ats-rules.md
+│   │   ├── bullet-writing.md
+│   │   ├── jd-matching.md
+│   │   ├── recruiter-insights.md
+│   │   ├── regional-conventions.md
+│   │   └── section-guide.md
+│   └── scripts/
+│       ├── ats_check.py
+│       ├── build_resume.py
+│       └── jd_match.py
+└── .gitignore
 ```
+
+---
+
+## Key principles
+
+### 1. Domain context is everything
+
+A resume becomes much stronger when it clearly explains the business, users, or systems involved.
+
+Instead of a vague summary, the goal is to show the actual value created.
+
+### 2. Impact beats activity
+
+Good bullet points describe:
+
+- what was done
+- what changed
+- why it mattered
+- how it was measured
+
+### 3. ATS optimization should be quiet, not awkward
+
+The best ATS-friendly resume is still readable by humans. This project tries to optimize for both.
+
+### 4. Region matters
+
+Resume expectations differ by geography. A strong US-style resume may not be appropriate for Germany, Ireland, India, or LATAM without adaptation.
+
+---
+
+## Example workflow
+
+A common use case looks like this:
+
+1. Upload or paste a job description
+2. Add your experience or CV text
+3. Choose the target country/region
+4. Ask the skill to tailor the resume
+5. Review the result for gaps, ATS risk, and relevance
+6. Export the final version as a polished PDF or DOCX
+
+---
 
 ## Requirements
 
 - Python 3.9+
 - `python-docx`, `pdfplumber`, `pypdf`
-- LibreOffice (optional, for PDF export and page counting)
+- LibreOffice for export and page-count tasks when needed
 
-## Disclaimer
-
-Country conventions and recruiter practices change and vary by employer. Treat them as sensible defaults, and check anything legally sensitive (work authorisation, personal data) against the employer's instructions.
+---
 
 ## Acknowledgements
 
-See [docs/SOURCES.md](docs/SOURCES.md). Parts of the bullet rules, domain-context guidance, Spanish-language guidance and the pre-delivery checklist are adapted from [dabydat/resume-builder-skill](https://github.com/dabydat/resume-builder-skill) (MIT).
+This project builds on established resume best practices and public research. See [docs/SOURCES.md](docs/SOURCES.md) for the full source list and attribution.
+
+---
 
 ## License
 
-MIT, see [LICENSE](LICENSE).
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
+---
+
+> A resume is not an autobiography. It is a marketing document for the role you want next.
